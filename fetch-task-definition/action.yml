@@ -1,0 +1,16 @@
+name: 'Fetch task definition'
+description: 'Fetch task definition from ECS'
+inputs:
+  name:
+    description: 'Name of the task definition'
+    required: true
+  filename:
+    description: 'Name of the file to store the task definition'
+    required: false
+    default: 'task_definition.json'
+outputs:
+  filename:
+    description: 'Task definition filename'
+runs:
+  using: 'node12'
+  main: 'index.js'

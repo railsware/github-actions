@@ -1,0 +1,9 @@
+{
+  "name": "fetch-task-definition",
+  "version": "1.0.0",
+  "main": "index.js",
+  "private": true,
+  "dependencies": {
+    "@actions/core": "^1.2.4"
+  }
+}
