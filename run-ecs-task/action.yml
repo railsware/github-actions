@@ -15,4 +15,4 @@ outputs:
     description: "URL of task page in AWS console"
 runs:
   using: "node12"
-  main: "index.js"
+  main: "dist/index.js"
