@@ -58,12 +58,11 @@ async function run() {
     const idParts = taskArnParts[5].split("/");
     const taskID = idParts[idParts.length - 1];
 
-    console.log("Task started");
+    const outputURL = `https://${taskRegion}.console.aws.amazon.com/ecs/home?region=${taskRegion}#/clusters/${cluster}/tasks/${taskID}/details`;
 
-    core.setOutput(
-      "url",
-      `https://${taskRegion}.console.aws.amazon.com/ecs/home?region=${taskRegion}#/clusters/${cluster}/tasks/${taskID}/details`
-    );
+    console.log(`Task started. Track it online at ${outputURL}`);
+
+    core.setOutput("url", outputURL);
   } catch (error) {
     core.setFailed(error.message);
   }
