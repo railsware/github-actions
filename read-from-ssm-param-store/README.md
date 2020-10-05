@@ -11,4 +11,4 @@ Retrieve information about parameters in a specific hierarchy
 
 Outputs:
 
-- `result` - JSON read from param store.
+- `param_json` - JSON read from param store.
