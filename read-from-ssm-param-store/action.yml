@@ -9,7 +9,7 @@ inputs:
                   end with the parameter name. A parameter name hierarchy can have a maximum of 15 levels."
     required: true
 outputs:
-  result:
+  param_json:
     description: "Parameters JSON"
 runs:
   using: "node12"

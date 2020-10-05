@@ -50,8 +50,8 @@ async function readAllParams(client, path, nextToken) {
 
 module.exports = readFromParamStore;
 
-async function run () {
-  console.log(await readFromParamStore('/sandbox/mailtrap', 'eu-central-1'))
-}
-
-run()
+// async function run () {
+//   console.log(await readFromParamStore('/sandbox/deploy/', 'eu-central-1'))
+// }
+//
+// run()
