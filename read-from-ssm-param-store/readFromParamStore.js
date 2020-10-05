@@ -11,7 +11,7 @@ async function readFromParamStore (path, region) {
 
   const data = await readAllParams(client, path)
   data.forEach(function ({Name, Value, Type}) {
-    const nameParts = Name.replace(path, '').split('/')
+    const nameParts = Name.replace(path, '').split('/').filter(function(item) { return !!item })
     let keyName = nameParts.pop()
     let value = Value
 
@@ -50,8 +50,8 @@ async function readAllParams(client, path, nextToken) {
 
 module.exports = readFromParamStore;
 
-// async function run () {
-//   console.log(await readFromParamStore('/sandbox/mailtrap/', 'eu-central-1'))
-// }
-//
-// run()
+async function run () {
+  console.log(await readFromParamStore('/sandbox/mailtrap', 'eu-central-1'))
+}
+
+run()
