@@ -1,0 +1,16 @@
+name: "Get params from SSM param store"
+description: "Retrieve information about parameters in a specific hierarchy"
+inputs:
+  region:
+    description: "AWS region"
+    required: true
+  path:
+    description: "The hierarchy for the parameter. Hierarchies start with a forward slash (/) and
+                  end with the parameter name. A parameter name hierarchy can have a maximum of 15 levels."
+    required: true
+outputs:
+  result:
+    description: "Parameters JSON"
+runs:
+  using: "node12"
+  main: "dist/index.js"
