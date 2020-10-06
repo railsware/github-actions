@@ -1,0 +1,16 @@
+{
+  "name": "read-from-ssm-param-store",
+  "version": "1.0.0",
+  "main": "index.js",
+  "private": true,
+  "dependencies": {
+    "@actions/core": "^1.2.4",
+    "aws-sdk": "^2.734.0"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "~>0.23.0"
+  },
+  "scripts": {
+    "prepublish": "node_modules/.bin/ncc build index.js -m -o dist"
+  }
+}
