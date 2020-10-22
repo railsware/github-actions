@@ -52,3 +52,14 @@ jobs:
       - name: Validate all actions distributives are up to date
         run: |
           git diff-index --exit-code --quiet HEAD || { echo 'Run `yarn workspaces run prepublish` and commit changes!'; false; }
+
+      - name: Save git diff
+        if: ${{ failure() }}
+        run: mkdir tmp && git diff > tmp/diff
+
+      - name: Upload git diff
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: diff_failed
+          path: tmp/
