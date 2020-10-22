@@ -1,5 +1,5 @@
 {
-  "name": "fetch-task-definition",
+  "name": "run-ecs-task",
   "version": "1.0.0",
   "main": "index.js",
   "private": true,
