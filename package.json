@@ -1,0 +1,8 @@
+{
+  "private": true,
+  "workspaces": [
+    "fetch-task-definition",
+    "read-from-ssm-param-store",
+    "run-ecs-task"
+  ]
+}
