@@ -4,5 +4,13 @@
     "fetch-task-definition",
     "read-from-ssm-param-store",
     "run-ecs-task"
-  ]
+  ],
+  "devDependencies": {
+    "commander": "^6.2.0",
+    "fs": "^0.0.1-security",
+    "yaml": "^1.10.0"
+  },
+  "scripts": {
+    "run_action": "node ./scripts/run.js"
+  }
 }

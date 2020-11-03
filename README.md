@@ -8,4 +8,9 @@ A collection of GitHub actions used at Railsware
 
 ---
 
+## running action on local machine
+- `yarn run_action name --param-1 value1 --param-2 value2 --param-3 value`
+  - `name` action name to run
+  - `param-x` - param like they specified in action.yml
+
 [Railsware](https://railsware.com)
