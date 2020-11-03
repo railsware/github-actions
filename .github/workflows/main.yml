@@ -43,13 +43,12 @@ jobs:
       # LS: When we upgrade to Yarn 2, we can just have the `yarn install --immutable` command. But with Yarn 1 it does nothing.
       - name: Verify that committed yarn.lock is up to date
         run: |
-          git diff-index --exit-code --quiet HEAD -- yarn.lock || { echo 'Run yarn and commit changes to yarn.lock!'; false; }
+          git diff --exit-code --quiet HEAD -- yarn.lock || { echo 'Run yarn and commit changes to yarn.lock!'; false; }
 
       - name: Validate all actions distributives are up to date
         run: |
           yarn workspaces run prepublish
-          git status
-          git diff-index --exit-code HEAD || { echo 'Run yarn and commit changes to yarn.lock!'; false; }
+          git diff --exit-code --quiet HEAD || { echo 'Run "yarn workspaces run prepublish" and commit changes!'; false; }
 
       - name: Save git diff
         if: ${{ failure() }}
