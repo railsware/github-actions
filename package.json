@@ -3,7 +3,8 @@
   "workspaces": [
     "fetch-task-definition",
     "read-from-ssm-param-store",
-    "run-ecs-task"
+    "run-ecs-task",
+    "register-ecs-task-definition"
   ],
   "devDependencies": {
     "commander": "^6.2.0",

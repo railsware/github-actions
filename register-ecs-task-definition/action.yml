@@ -1,0 +1,14 @@
+name: "Register Amazon ECS Task Definition"
+description: "Registers an Amazon ECS task definition"
+inputs:
+  task_definition_path:
+    description: 'The path to the ECS task definition file to register'
+    required: true
+
+outputs:
+  task_definition_arn:
+    description: 'The ARN of the registered ECS task definition'
+
+runs:
+  using: "node12"
+  main: "dist/index.js"
