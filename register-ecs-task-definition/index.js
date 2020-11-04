@@ -1,14 +1,19 @@
 const core = require("@actions/core");
 const AWS = require("aws-sdk");
+const fs = require('fs');
+const path = require('path');
 
 async function run() {
-  const ecs = new AWS.ECS();
-  const taskDefinitionPath = core.getInput('task_definition_path', { required: true });
-
-  const taskDefinition = require(taskDefinitionPath);
-
-  let response;
   try {
+    const ecs = new AWS.ECS();
+    const taskDefinitionPath = core.getInput('task_definition_path', { required: true });
+
+    const fullPath = path.isAbsolute(taskDefinitionPath) ?
+      taskDefinitionPath :
+      path.join(process.env.GITHUB_WORKSPACE, taskDefinitionPath);
+    const taskDefinition = JSON.parse(fs.readFileSync(fullPath, 'utf8'));
+
+    let response;
     response = await ecs.registerTaskDefinition(taskDefinition).promise();
     core.setOutput('task_definition_arn', response.taskDefinition.taskDefinitionArn);
   } catch (error) {
