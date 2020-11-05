@@ -7,13 +7,13 @@ inputs:
   service:
     description: "ECS service to read parameters from"
     required: true
-  task_definition:
+  task-definition:
     description: "ECS task definition ARN"
     required: false
   command:
     description: "Task command"
     required: true
-  show_raw_output:
+  show-raw-output:
     description: "Wait for task to complete and display output from task"
     default: false
 
