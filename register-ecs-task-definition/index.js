@@ -6,7 +6,7 @@ const path = require('path');
 async function run() {
   try {
     const ecs = new AWS.ECS();
-    const taskDefinitionPath = core.getInput('task_definition_path', { required: true });
+    const taskDefinitionPath = core.getInput('task-definition', { required: true });
 
     const fullPath = path.isAbsolute(taskDefinitionPath) ?
       taskDefinitionPath :

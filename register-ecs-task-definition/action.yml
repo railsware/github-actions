@@ -1,7 +1,7 @@
 name: "Register Amazon ECS Task Definition"
 description: "Registers an Amazon ECS task definition"
 inputs:
-  task_definition_path:
+  task-definition:
     description: 'The path to the ECS task definition file to register'
     required: true
 
