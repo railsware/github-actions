@@ -8,8 +8,8 @@ async function run() {
     const cluster = core.getInput("cluster", { required: true });
     const serviceName = core.getInput("service", { required: true });
     const command = core.getInput("command", { required: true });
-    const givenTaskDefinition = core.getInput("task_definition", { required: false });
-    const showRawOutput = core.getInput("show_raw_output", { required: false });
+    const givenTaskDefinition = core.getInput("task-definition", { required: false });
+    const showRawOutput = core.getInput("show-raw-output", { required: false });
 
     const ecs = new AWS.ECS();
 
