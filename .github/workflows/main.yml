@@ -60,3 +60,16 @@ jobs:
         with:
           name: diff_failed
           path: tmp/
+
+      - name: Notify unsuccessful build
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          author_name: GA Deployer
+          fields: repo,author,message
+          mention: here
+          if_mention: failure,cancelled
+          text: ":fire:BWEEP bip bip BWEEP:fire: *${{ github.job }} ${{ job.status }}* in the '${{ github.workflow }}' workflow"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: failure() && github.ref == 'refs/heads/master'
