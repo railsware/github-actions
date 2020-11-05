@@ -52,7 +52,7 @@ async function run() {
   const inputs = Object.keys(config.inputs).reduce(function (acc, name) {
     return {
       ...acc,
-      [`INPUT_${name.toUpperCase()}`]: options[name]
+      [`INPUT_${name.replace(/-/g, '_').toUpperCase()}`]: options[name]
     }
   }, {})
 
