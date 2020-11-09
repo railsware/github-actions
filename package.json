@@ -7,7 +7,6 @@
   ],
   "devDependencies": {
     "commander": "^6.2.0",
-    "fs": "^0.0.1-security",
     "yaml": "^1.10.0"
   },
   "scripts": {
