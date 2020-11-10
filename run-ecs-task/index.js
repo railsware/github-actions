@@ -77,7 +77,7 @@ async function run() {
 
       const prettyOutput = JSON.stringify(logs, null, 2)
       console.log(`Task output %o`, prettyOutput);
-      core.setOutput("raw_output", prettyOutput);
+      core.setOutput("raw_output", logs);
     }
   } catch (error) {
     core.setFailed(error.message);
