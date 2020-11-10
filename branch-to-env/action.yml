@@ -1,0 +1,17 @@
+name: "Branch to environment name"
+description: "Parse branch name and map it to environment name"
+
+inputs:
+  github-ref:
+    description: 'Github reference to parse'
+    required: true
+  map:
+    description: 'Branch to env map'
+
+outputs:
+  environment:
+    description: 'Environment name'
+
+runs:
+  using: "node12"
+  main: "dist/index.js"
