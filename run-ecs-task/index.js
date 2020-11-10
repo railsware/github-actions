@@ -1,11 +1,15 @@
 const core = require("@actions/core");
 const AWS = require("aws-sdk");
+const readTaskLogs = require("./readTaskLogs")
+const waitTaskToComplete = require("./waitTaskToComplete")
 
 async function run() {
   try {
     const cluster = core.getInput("cluster", { required: true });
     const serviceName = core.getInput("service", { required: true });
     const command = core.getInput("command", { required: true });
+    const givenTaskDefinition = core.getInput("task-definition", { required: false });
+    const showRawOutput = core.getInput("show-raw-output", { required: false });
 
     const ecs = new AWS.ECS();
 
@@ -21,7 +25,7 @@ async function run() {
 
     const taskDefinitionResponse = await ecs
       .describeTaskDefinition({
-        taskDefinition: service.taskDefinition,
+        taskDefinition: givenTaskDefinition || service.taskDefinition,
       })
       .promise();
 
@@ -38,7 +42,7 @@ async function run() {
     const taskResponse = await ecs
       .runTask({
         cluster,
-        taskDefinition: service.taskDefinition,
+        taskDefinition: taskDefinition.taskDefinitionArn,
         launchType: "FARGATE",
         overrides: {
           containerOverrides: [
@@ -63,6 +67,18 @@ async function run() {
     console.log(`Task started. Track it online at ${outputURL}`);
 
     core.setOutput("url", outputURL);
+    if (showRawOutput) {
+
+      await waitTaskToComplete(ecs, cluster, taskID)
+      console.log(`Task completed`);
+
+      const logConfig = taskDefinition.containerDefinitions[0].logConfiguration
+      const logs = await readTaskLogs(logConfig, containerName, taskID)
+
+      const prettyOutput = JSON.stringify(logs, null, 2)
+      console.log(`Task output %o`, prettyOutput);
+      core.setOutput("raw_output", prettyOutput);
+    }
   } catch (error) {
     core.setFailed(error.message);
   }
