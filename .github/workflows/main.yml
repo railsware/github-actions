@@ -45,6 +45,10 @@ jobs:
         run: |
           git diff --exit-code --quiet HEAD -- yarn.lock || { echo 'Run yarn and commit changes to yarn.lock!'; false; }
 
+      - name: Test
+        run: |
+          yarn workspaces run test
+
       - name: Validate all actions distributives are up to date
         run: |
           yarn workspaces run prepublish
