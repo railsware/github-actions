@@ -24,6 +24,17 @@ function runAction(cmd, args, opts ) {
   })
 }
 
+function toInputName(str) {
+  return 'INPUT_' +
+    str
+    .replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)
+    .toUpperCase()
+}
+
+function toParamName(str) {
+  return str.replace(/-\w/g, match => match[1].toUpperCase())
+}
+
 async function run() {
   commander
     .storeOptionsAsProperties(false)
@@ -52,7 +63,7 @@ async function run() {
   const inputs = Object.keys(config.inputs).reduce(function (acc, name) {
     return {
       ...acc,
-      [`INPUT_${name.replace(/-/g, '_').toUpperCase()}`]: options[name]
+      [toInputName(name)]: options[toParamName(name)]
     }
   }, {})
 

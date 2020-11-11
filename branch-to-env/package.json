@@ -1,5 +1,5 @@
-{
-  "name": "fetch-task-definition",
+ {
+  "name": "branch-to-env",
   "version": "1.0.0",
   "main": "index.js",
   "private": true,
@@ -11,6 +11,6 @@
   },
   "scripts": {
     "prepublish": "node_modules/.bin/ncc build index.js -m -o dist",
-    "test": "echo 'No tests for fetch-task-definition'"
+    "test": "TZ=utc jest"
   }
 }
