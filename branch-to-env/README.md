@@ -1,4 +1,4 @@
-# run-ecs-task
+# branch-to-env
 
 Parses branch name and optionally maps to environment name
 
