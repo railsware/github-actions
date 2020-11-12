@@ -1,5 +1,5 @@
  {
-  "name": "branch-to-env",
+  "name": "github-ref-to-env",
   "version": "1.0.0",
   "main": "index.js",
   "private": true,
