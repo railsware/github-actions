@@ -1,7 +1,7 @@
 {
   "private": true,
   "workspaces": [
-    "branch-to-env",
+    "github-ref-to-env",
     "fetch-task-definition",
     "read-from-ssm-param-store",
     "run-ecs-task",
