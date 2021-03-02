@@ -7,6 +7,9 @@ inputs:
   service:
     description: "ECS service to read parameters from"
     required: true
+  container:
+    description: "ECS container in task (if task contain more, than one)"
+    required: false
   task-definition:
     description: "ECS task definition ARN"
     required: false
