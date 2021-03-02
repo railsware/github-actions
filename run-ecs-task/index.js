@@ -7,7 +7,7 @@ async function run() {
   try {
     const cluster = core.getInput("cluster", { required: true });
     const serviceName = core.getInput("service", { required: true });
-    const definedContainerName = core.getInput("container", {required: false});
+    const definedContainerName = core.getInput("container", { required: false });
     const command = core.getInput("command", { required: true });
     const givenTaskDefinition = core.getInput("task-definition", { required: false });
     const showRawOutput = core.getInput("show-raw-output", { required: false });
