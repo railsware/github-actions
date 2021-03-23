@@ -7,6 +7,7 @@ async function run() {
   try {
     const cluster = core.getInput("cluster", { required: true });
     const serviceName = core.getInput("service", { required: true });
+    const definedContainerName = core.getInput("container", { required: false });
     const command = core.getInput("command", { required: true });
     const givenTaskDefinition = core.getInput("task-definition", { required: false });
     const showRawOutput = core.getInput("show-raw-output", { required: false });
@@ -31,13 +32,19 @@ async function run() {
 
     const taskDefinition = taskDefinitionResponse.taskDefinition;
 
-    if (taskDefinition.containerDefinitions.length != 1) {
-      throw new Error(
-        "Running in tasks with more than one container is not yet supported"
-      );
-    }
+    const containerName = (() => {
+      if (definedContainerName) {
+        return definedContainerName;
+      } else {
+        if (taskDefinition.containerDefinitions.length != 1) {
+          throw new Error(
+            "Running in tasks with more than one container is not yet supported"
+          );
+        }
 
-    const containerName = taskDefinition.containerDefinitions[0].name;
+        return taskDefinition.containerDefinitions[0].name;
+      }
+    })()
 
     const taskResponse = await ecs
       .runTask({
