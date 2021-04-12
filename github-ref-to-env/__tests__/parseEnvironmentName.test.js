@@ -9,6 +9,11 @@ describe('parseEnvironmentName', () => {
 
   describe('when branch to env mapping is given', () => {
     it('maps github ref to env using the map', () => {
+      expect(parseEnvironmentName('id/MT-877-test-workflow-run', {
+        "master": "production",
+        "id/MT-877-test-workflow-run": "staging"
+      })).toEqual('staging')
+
       expect(parseEnvironmentName('refs/heads/my/branch-name', {
         "my/branch-name": "sandbox"
       })).toEqual('sandbox')

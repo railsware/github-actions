@@ -5,6 +5,8 @@ function parseBranch (ref) {
   if (match) {
     return match[2]
   }
+
+  return ref
 }
 
 function parseEnvironmentName(githubRef, map) {
