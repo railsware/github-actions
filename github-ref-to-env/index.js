@@ -9,6 +9,8 @@ async function run() {
       map = JSON.parse(map)
     }
 
+    core.debug(`github-ref: ${githubRef}`)
+    core.debug(`github-ref: ${JSON.stringify(map)}`)
     let env = parseEnvironmentName(githubRef, map)
 
     if (!env) {

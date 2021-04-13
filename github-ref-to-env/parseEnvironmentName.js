@@ -1,3 +1,5 @@
+const core = require("@actions/core");
+
 function parseBranch (ref) {
   const regex = /refs\/(heads|tags)\/(\S*)/
   const match = ref.match(regex)
@@ -5,10 +7,14 @@ function parseBranch (ref) {
   if (match) {
     return match[2]
   }
+
+  return ref
 }
 
 function parseEnvironmentName(githubRef, map) {
   let env = parseBranch(githubRef)
+
+  core.debug(`parsed env is ${env}`)
 
   if (map) {
     // we intentionally do sort reverse to push capture everything key `.*` to end
@@ -20,6 +26,7 @@ function parseEnvironmentName(githubRef, map) {
     })
 
     env = map[mappedName]
+    core.debug(`mapped env is ${env}`)
   }
 
   return env;

@@ -8,21 +8,28 @@ describe('parseEnvironmentName', () => {
   })
 
   describe('when branch to env mapping is given', () => {
-    expect(parseEnvironmentName('refs/heads/my/branch-name', {
-      "my/branch-name": "sandbox"
-    })).toEqual('sandbox')
+    it('maps github ref to env using the map', () => {
+      expect(parseEnvironmentName('id/MT-877-test-workflow-run', {
+        "master": "production",
+        "id/MT-877-test-workflow-run": "staging"
+      })).toEqual('staging')
 
-    expect(parseEnvironmentName('refs/heads/my/branch-name', {
-      ".*": "sandbox"
-    })).toEqual('sandbox')
+      expect(parseEnvironmentName('refs/heads/my/branch-name', {
+        "my/branch-name": "sandbox"
+      })).toEqual('sandbox')
 
-    expect(parseEnvironmentName('refs/heads/my/branch-name', {
-      ".*": "sandbox",
-      "my/branch-name": "staging"
-    })).toEqual('staging')
+      expect(parseEnvironmentName('refs/heads/my/branch-name', {
+        ".*": "sandbox"
+      })).toEqual('sandbox')
 
-    expect(parseEnvironmentName('refs/heads/no-map-match', {
-      "my/branch-name": "sandbox"
-    })).toBeUndefined()
+      expect(parseEnvironmentName('refs/heads/my/branch-name', {
+        ".*": "sandbox",
+        "my/branch-name": "staging"
+      })).toEqual('staging')
+
+      expect(parseEnvironmentName('refs/heads/no-map-match', {
+        "my/branch-name": "sandbox"
+      })).toBeUndefined()
+    })
   })
 })
