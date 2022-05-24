@@ -55,7 +55,7 @@ async function run() {
           containerOverrides: [
             {
               name: containerName,
-              command: ["sh", "-c", command],
+              entryPoint: ["sh", "-c", command],
             },
           ],
         },
