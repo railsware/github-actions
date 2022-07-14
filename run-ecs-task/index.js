@@ -74,11 +74,11 @@ async function run() {
     console.log(`Task started. Track it online at ${outputURL}`);
 
     core.setOutput("url", outputURL);
-    if (showRawOutput) {
 
     await waitTaskToComplete(ecs, cluster, taskID)
     console.log(`Task completed`);
 
+    if (showRawOutput === "true") {
       const logConfig = taskDefinition.containerDefinitions[0].logConfiguration
       const logs = await readTaskLogs(logConfig, containerName, taskID)
 

@@ -17,7 +17,7 @@ inputs:
     description: "Task command"
     required: true
   show-raw-output:
-    description: "Wait for task to complete and display output from task"
+    description: "Display task logs"
     default: false
 
 outputs:
