@@ -10,6 +10,7 @@ async function run() {
     const definedContainerName = core.getInput("container", { required: false });
     const command = core.getInput("command", { required: true });
     const givenTaskDefinition = core.getInput("task-definition", { required: false });
+    const waitForCompletion = core.getInput("wait-for-completion", { required: false });
     const showRawOutput = core.getInput("show-raw-output", { required: false });
 
     const ecs = new AWS.ECS();
@@ -75,8 +76,12 @@ async function run() {
 
     core.setOutput("url", outputURL);
 
-    await waitTaskToComplete(ecs, cluster, taskID)
-    console.log(`Task completed`);
+    if (waitForCompletion === "true") {
+      await waitTaskToComplete(ecs, cluster, taskID)
+      console.log("Task completed");
+    } else {
+      console.log("The task is up and running but the action isn't going to wait for execution to complete");
+    }
 
     if (showRawOutput === "true") {
       const logConfig = taskDefinition.containerDefinitions[0].logConfiguration

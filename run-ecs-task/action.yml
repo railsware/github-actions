@@ -16,6 +16,10 @@ inputs:
   command:
     description: "Task command"
     required: true
+  wait-for-completion:
+    description: "Whether to wait for the task execution to complete"
+    required: false
+    default: true
   show-raw-output:
     description: "Display task logs"
     default: false
