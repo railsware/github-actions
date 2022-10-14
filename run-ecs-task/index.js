@@ -47,6 +47,10 @@ async function run() {
       }
     })()
 
+    const networkConfiguration = service.deployments[0] ? 
+      service.deployments[0].networkConfiguration : 
+      service.taskSets[0].networkConfiguration
+
     const taskResponse = await ecs
       .runTask({
         cluster,
@@ -60,7 +64,7 @@ async function run() {
             },
           ],
         },
-        networkConfiguration: service.deployments[0].networkConfiguration,
+        networkConfiguration
       })
       .promise();
 
