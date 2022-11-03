@@ -3,7 +3,7 @@ function sleep(milliseconds) {
 }
 
 async function waitTaskToComplete(ecs, cluster, taskID) {
-  let lastStatus = null
+  let task = null
 
   do {
     await sleep(1000)
@@ -13,8 +13,10 @@ async function waitTaskToComplete(ecs, cluster, taskID) {
       })
       .promise();
 
-    lastStatus = tasks[0].lastStatus
-  } while (lastStatus !== 'STOPPED')
+    task = tasks[0]
+  } while (task.lastStatus !== 'STOPPED')
+
+  return task
 }
 
 module.exports = waitTaskToComplete;
