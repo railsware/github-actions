@@ -21,7 +21,7 @@ jobs:
       - name: Read Node.JS version
         id: versions
         run: |
-          echo "::set-output name=node_version::$(cat .node-version)"
+          echo "node_version=$(cat .node-version)" >> $GITHUB_OUTPUT
 
       - name: Install Node.JS
         uses: actions/setup-node@v1
