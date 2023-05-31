@@ -16,8 +16,12 @@ inputs:
   command:
     description: "Task command"
     required: true
+  wait-for-completion:
+    description: "Whether to wait for the task execution to complete"
+    required: false
+    default: true
   show-raw-output:
-    description: "Wait for task to complete and display output from task"
+    description: "Display task logs"
     default: false
 
 outputs:
@@ -27,5 +31,5 @@ outputs:
     description: "Raw output from task"
 
 runs:
-  using: "node12"
+  using: "node16"
   main: "dist/index.js"

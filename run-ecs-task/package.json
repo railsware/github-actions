@@ -4,14 +4,14 @@
   "main": "index.js",
   "private": true,
   "dependencies": {
-    "@actions/core": "^1.2.6",
-    "aws-sdk": "^2.734.0"
+    "@actions/core": "^1.9.1",
+    "aws-sdk": "^2.814.0"
   },
   "devDependencies": {
     "@vercel/ncc": "~>0.23.0"
   },
   "scripts": {
     "prepublish": "node_modules/.bin/ncc build index.js -m -o dist",
-    "test": "echo 'No tests for fetch-task-definition'"
+    "test": "TZ=utc jest"
   }
 }

@@ -1,11 +1,11 @@
- {
+{
   "name": "register-ecs-task-definition",
   "version": "1.0.0",
   "main": "index.js",
   "private": true,
   "dependencies": {
-    "@actions/core": "^1.2.6",
-    "aws-sdk": "^2.734.0"
+    "@actions/core": "^1.9.1",
+    "aws-sdk": "^2.1031.0"
   },
   "devDependencies": {
     "@vercel/ncc": "~>0.23.0"
