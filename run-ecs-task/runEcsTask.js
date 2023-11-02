@@ -3,6 +3,7 @@ const readTaskLogs = require("./readTaskLogs")
 const waitTaskToComplete = require("./waitTaskToComplete")
 
 async function runEcsTask({ ecs, cluster, serviceName, definedContainerName, command, givenTaskDefinition, waitForCompletion, showRawOutput }) {
+  core.debug("Describing ecs services");
   const servicesResponse = await ecs
     .describeServices({ cluster, services: [serviceName] })
     .promise();
@@ -13,6 +14,7 @@ async function runEcsTask({ ecs, cluster, serviceName, definedContainerName, com
 
   const service = servicesResponse.services[0];
 
+  core.debug("Describing task definition");
   const {taskDefinition} = await ecs
     .describeTaskDefinition({
       taskDefinition: givenTaskDefinition || service.taskDefinition,
@@ -32,11 +34,12 @@ async function runEcsTask({ ecs, cluster, serviceName, definedContainerName, com
       return taskDefinition.containerDefinitions[0].name;
     }
   })()
-
-  const networkConfiguration = service.deployments[0] ?
+  core.debug(`Using container name ${containerName}`);
+  const networkConfiguration = service.deployments && service.deployments[0] ?
     service.deployments[0].networkConfiguration :
     service.taskSets[0].networkConfiguration
 
+  core.debug(`Running ${command} command in ${taskDefinition.taskDefinitionArn}`);
   const taskResponse = await ecs
     .runTask({
       cluster,
@@ -62,20 +65,19 @@ async function runEcsTask({ ecs, cluster, serviceName, definedContainerName, com
 
   const outputURL = `https://${taskRegion}.console.aws.amazon.com/ecs/home?region=${taskRegion}#/clusters/${cluster}/tasks/${taskID}/details`;
 
-  console.log(`Task started. Track it online at ${outputURL}`);
-
+  core.info(`Task started. Track it online at ${outputURL}`);
   core.setOutput("url", outputURL);
 
   if (waitForCompletion === "true") {
     const task = await waitTaskToComplete(ecs, cluster, taskID)
-    console.log("Task completed")
+    core.info("Task completed")
 
     if (showRawOutput === "true") {
       const logConfig = taskDefinition.containerDefinitions[0].logConfiguration
       const logs = await readTaskLogs(logConfig, containerName, taskID)
 
       const prettyOutput = JSON.stringify(logs, null, 2)
-      console.log(`Task output %o`, prettyOutput);
+      core.info(`Task output ${prettyOutput}`);
       core.setOutput("raw_output", logs);
     }
 
@@ -84,7 +86,7 @@ async function runEcsTask({ ecs, cluster, serviceName, definedContainerName, com
       throw new Error(`Task exited abnormally. Exit code: ${container.exitCode}`)
     }
   } else {
-    console.log("The task is up and running but the action isn't going to wait for execution to complete");
+    core.info("The task is up and running but the action isn't going to wait for execution to complete");
   }
 }
 
