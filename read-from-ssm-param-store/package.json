@@ -8,7 +8,7 @@
     "aws-sdk": "^2.814.0"
   },
   "devDependencies": {
-    "@vercel/ncc": "~>0.23.0"
+    "@vercel/ncc": "~>0.38.1"
   },
   "scripts": {
     "prepublish": "node_modules/.bin/ncc build index.js -m -o dist",
