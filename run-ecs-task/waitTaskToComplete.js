@@ -11,7 +11,6 @@ async function waitTaskToComplete(ecs, cluster, taskID) {
       .describeTasks({
         cluster: cluster, tasks: [taskID]
       })
-      .promise();
 
     task = tasks[0]
   } while (task.lastStatus !== 'STOPPED')

@@ -1,11 +1,11 @@
 const core = require("@actions/core");
-const AWS = require("aws-sdk");
+const { ECS } = require('@aws-sdk/client-ecs');
 const fs = require('fs');
 const path = require('path');
 
 async function run() {
   try {
-    const ecs = new AWS.ECS();
+    const ecs = new ECS();
     const taskDefinitionPath = core.getInput('task-definition', { required: true });
 
     const fullPath = path.isAbsolute(taskDefinitionPath) ?
@@ -14,7 +14,7 @@ async function run() {
     const taskDefinition = JSON.parse(fs.readFileSync(fullPath, 'utf8'));
 
     let response;
-    response = await ecs.registerTaskDefinition(taskDefinition).promise();
+    response = await ecs.registerTaskDefinition(taskDefinition);
     core.setOutput('task_definition_arn', response.taskDefinition.taskDefinitionArn);
   } catch (error) {
     core.setFailed("Failed to register task definition in ECS: " + error.message);
