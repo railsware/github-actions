@@ -2,9 +2,7 @@ const runEcsTask = require('../runEcsTask')
 
 describe('runEcsTask', () => {
   const buildMock = (data) => (
-    jest.fn().mockReturnValue({
-      promise: () => Promise.resolve(data)
-    })
+    jest.fn().mockReturnValue(data)
   )
   const buildEcsMock = ({
                           describeServices = buildMock({
