@@ -1,9 +1,9 @@
-const AWS = require("aws-sdk");
+const { SSM } = require('@aws-sdk/client-ssm');
 
 const SECURE_MARKER = 'SECURE';
 
 async function readFromParamStore (path, region) {
-  const client = new AWS.SSM({
+  const client = new SSM({
     region: region
   });
 
@@ -39,7 +39,7 @@ async function readAllParams(client, path, nextToken) {
     Recursive: true,
     WithDecryption: false,
     NextToken: nextToken
-  }).promise()
+  })
 
   if (data.NextToken) {
     return data.Parameters.concat(await readAllParams(client, path, data.NextToken));

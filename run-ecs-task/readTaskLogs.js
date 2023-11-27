@@ -1,4 +1,4 @@
-const AWS = require("aws-sdk");
+const { CloudWatchLogs } = require('@aws-sdk/client-cloudwatch-logs');
 
 async function readTaskLogs(logConfig, containerName, taskId) {
   let nextToken = null
@@ -6,7 +6,7 @@ async function readTaskLogs(logConfig, containerName, taskId) {
     throw new Error(`Unsupported log driver ${logConfig.logDriver}. Only 'awslogs' is supported`)
   }
 
-  const cloudWatchLogs = new AWS.CloudWatchLogs()
+  const cloudWatchLogs = new CloudWatchLogs()
 
   const params = {
     logGroupName: logConfig.options['awslogs-group'],
@@ -20,7 +20,7 @@ async function readTaskLogs(logConfig, containerName, taskId) {
     const {events, nextForwardToken} = await cloudWatchLogs.getLogEvents({
       ...params,
       nextToken: nextToken
-    }).promise();
+    });
     if (events.length === 0) {
       break;
     }

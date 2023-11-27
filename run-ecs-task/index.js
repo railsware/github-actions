@@ -1,5 +1,5 @@
 const core = require("@actions/core");
-const AWS = require("aws-sdk");
+const { ECS } = require("@aws-sdk/client-ecs");
 const runEcsTask = require("./runEcsTask")
 
 async function run() {
@@ -12,7 +12,7 @@ async function run() {
     const waitForCompletion = core.getInput("wait-for-completion", { required: false });
     const showRawOutput = core.getInput("show-raw-output", { required: false });
 
-    const ecs = new AWS.ECS();
+    const ecs = new ECS();
 
     await runEcsTask({
       ecs,

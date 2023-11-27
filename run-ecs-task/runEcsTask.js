@@ -6,7 +6,6 @@ async function runEcsTask({ ecs, cluster, serviceName, definedContainerName, com
   core.debug("Describing ecs services");
   const servicesResponse = await ecs
     .describeServices({ cluster, services: [serviceName] })
-    .promise();
 
   if (!servicesResponse.services || servicesResponse.services.length === 0) {
     throw new Error("no such service");
@@ -19,7 +18,6 @@ async function runEcsTask({ ecs, cluster, serviceName, definedContainerName, com
     .describeTaskDefinition({
       taskDefinition: givenTaskDefinition || service.taskDefinition,
     })
-    .promise();
 
   const containerName = (() => {
     if (definedContainerName) {
@@ -55,7 +53,6 @@ async function runEcsTask({ ecs, cluster, serviceName, definedContainerName, com
       },
       networkConfiguration
     })
-    .promise();
 
   const taskArn = taskResponse.tasks[0].taskArn;
   const taskArnParts = taskArn.split(":");
