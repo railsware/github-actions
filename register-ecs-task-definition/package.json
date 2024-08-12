@@ -5,13 +5,13 @@
   "private": true,
   "dependencies": {
     "@actions/core": "^1.9.1",
-    "@aws-sdk/client-ecs": "^3.6.0"
+    "@aws-sdk/client-ecs": "^3.624.0"
   },
   "devDependencies": {
     "@vercel/ncc": "~>0.38.1"
   },
   "scripts": {
     "prepublish": "node_modules/.bin/ncc build index.js -m -o dist",
-    "test": "echo 'No tests for fetch-task-definition'"
+    "test": "echo 'No tests for register-ecs-task-definition'"
   }
 }
