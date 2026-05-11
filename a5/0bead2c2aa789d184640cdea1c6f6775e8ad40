@@ -1,0 +1,19 @@
+.gitattributes
+  s_ad7fb4ccdbfe54::t_77dac8a49db8cc 1-2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.4",
+  "base_commit_sha": "a50bead2c2aa789d184640cdea1c6f6775e8ad40",
+  "prompts": {},
+  "sessions": {
+    "s_ad7fb4ccdbfe54": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "2c824ab5-5afa-48f5-b3de-e2a0efe41c69",
+        "model": "default"
+      },
+      "human_author": "Leonid Shevtsov <leonid@shevtsov.me>"
+    }
+  }
+}
