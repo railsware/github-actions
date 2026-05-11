@@ -4,9 +4,9 @@
   "main": "index.js",
   "private": true,
   "dependencies": {
-    "@actions/core": "^1.9.1",
-    "@aws-sdk/client-cloudwatch-logs": "^3.624.0",
-    "@aws-sdk/client-ecs": "^3.624.0"
+    "@actions/core": "^1.11.1",
+    "@aws-sdk/client-cloudwatch-logs": "^3.1045.0",
+    "@aws-sdk/client-ecs": "^3.1045.0"
   },
   "devDependencies": {
     "@vercel/ncc": "~>0.38.1"
