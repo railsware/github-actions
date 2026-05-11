@@ -1,0 +1,2 @@
+# Collapse generated bundles in PR diffs (composite action ncc output).
+**/dist/** linguist-generated
