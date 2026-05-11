@@ -1,0 +1,116 @@
+run-ecs-task/action.yml
+  s_ad7fb4ccdbfe54::t_7120366178239f 34
+read-from-ssm-param-store/dist/589.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-233
+register-ecs-task-definition/dist/520.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-151
+register-ecs-task-definition/dist/544.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-531
+register-ecs-task-definition/package.json
+  s_ad7fb4ccdbfe54::t_144336656a380b 7
+  s_ad7fb4ccdbfe54::t_799bbb2a1d313f 8
+run-ecs-task/dist/544.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-531
+read-from-ssm-param-store/dist/578.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-715
+github-ref-to-env/package.json
+  s_ad7fb4ccdbfe54::t_558442c264e8df 7
+github-ref-to-env/dist/index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-3
+register-ecs-task-definition/dist/448.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-1947
+run-ecs-task/dist/578.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-715
+run-ecs-task/dist/589.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-233
+register-ecs-task-definition/dist/589.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-233
+run-ecs-task/dist/287.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-93
+read-from-ssm-param-store/dist/287.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-93
+read-from-ssm-param-store/dist/448.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-1947
+register-ecs-task-definition/dist/136.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-846
+read-from-ssm-param-store/dist/136.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-846
+read-from-ssm-param-store/action.yml
+  s_ad7fb4ccdbfe54::t_9eb224db728d65 15
+github-ref-to-env/action.yml
+  s_ad7fb4ccdbfe54::t_fe4e2a3423f53e 16
+read-from-ssm-param-store/dist/544.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-531
+read-from-ssm-param-store/dist/410.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-281
+read-from-ssm-param-store/dist/919.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-386
+fetch-task-definition/action.yml
+  s_ad7fb4ccdbfe54::t_8a4d3dab12b310 15
+run-ecs-task/dist/448.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-1947
+register-ecs-task-definition/dist/287.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-93
+read-from-ssm-param-store/dist/254.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-1030
+fetch-task-definition/package.json
+  s_ad7fb4ccdbfe54::t_52af98595d42de 7
+fetch-task-definition/dist/index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-3
+read-from-ssm-param-store/dist/index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-3
+register-ecs-task-definition/dist/410.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-281
+register-ecs-task-definition/dist/919.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-386
+run-ecs-task/dist/136.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-846
+run-ecs-task/dist/254.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-1030
+run-ecs-task/package.json
+  s_ad7fb4ccdbfe54::t_8e8bc2dd139580 8-9
+  s_ad7fb4ccdbfe54::t_8f97825aa80ee1 7
+.node-version
+  s_ad7fb4ccdbfe54::t_2f793342743304 1
+register-ecs-task-definition/dist/578.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-715
+run-ecs-task/dist/410.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-281
+run-ecs-task/dist/index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-3
+run-ecs-task/dist/919.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-386
+register-ecs-task-definition/dist/254.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-1030
+read-from-ssm-param-store/dist/520.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-151
+.github/workflows/main.yml
+  s_ad7fb4ccdbfe54::t_de5e5f5fddbcdf 49,55
+  s_ad7fb4ccdbfe54::t_394700ecffcf15 4-8,14,17,19-20
+  s_ad7fb4ccdbfe54::t_55dfb057fa09a4 22-24
+register-ecs-task-definition/action.yml
+  s_ad7fb4ccdbfe54::t_8b0af9e650044c 13
+run-ecs-task/dist/520.index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-151
+read-from-ssm-param-store/package.json
+  s_ad7fb4ccdbfe54::t_70322df11c10a1 7
+  s_ad7fb4ccdbfe54::t_7d758f9326afcc 8
+register-ecs-task-definition/dist/index.js
+  s_ad7fb4ccdbfe54::t_70f64af0c9cb18 1-3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.4",
+  "base_commit_sha": "c5ee15b96c0601bd3699d48b4e3ba3120689a18c",
+  "prompts": {},
+  "sessions": {
+    "s_ad7fb4ccdbfe54": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "2c824ab5-5afa-48f5-b3de-e2a0efe41c69",
+        "model": "default"
+      },
+      "human_author": "Leonid Shevtsov <leonid@shevtsov.me>"
+    }
+  }
+}
