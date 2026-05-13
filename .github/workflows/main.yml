@@ -1,41 +1,27 @@
 name: Validate
 on: push
 
+# Cancel superseded runs on the same ref (same behavior as the former cleanup job: skip for master and tags).
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') && github.ref != 'refs/heads/master' }}
+
 jobs:
-  # This jobs stops already running builds in current branch
-  # except master and tags
-  cleanup-runs:
-    name: "Cleanup running builds for current branch"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: rokroskar/workflow-run-cleanup-action@v0.2.2
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-    if: "!startsWith(github.ref, 'refs/tags/') && github.ref != 'refs/heads/master'"
   test:
     name: "Test"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Read Node.JS version
-        id: versions
-        run: |
-          echo "node_version=$(cat .node-version)" >> $GITHUB_OUTPUT
+      - uses: actions/checkout@v6
 
       - name: Install Node.JS
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v6
         with:
-          node-version: ${{ steps.versions.outputs.node_version }}
+          node-version-file: ".node-version"
+          cache: yarn
 
-      - name: Restore node_modules cache
-        uses: actions/cache@v3
-        id: yarn-cache
-        with:
-          path: "**/node_modules"
-          key: v1-${{ runner.os }}-${{steps.versions.outputs.node_version}}-yarn-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            v1-${{ runner.os }}-${{steps.versions.outputs.node_version}}-yarn-
+      # Lockfile is Yarn v1; runners may ship a newer global Yarn.
+      - name: Use Yarn classic
+        run: npm install -g yarn@1.22.22
 
       - name: Install Javascript dependencies
         run: yarn install
@@ -60,13 +46,13 @@ jobs:
 
       - name: Upload git diff
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: diff_failed
           path: tmp/
 
       - name: Notify unsuccessful build
-        uses: 8398a7/action-slack@v3
+        uses: 8398a7/action-slack@v3.19.0
         with:
           status: ${{ job.status }}
           author_name: GA Deployer
