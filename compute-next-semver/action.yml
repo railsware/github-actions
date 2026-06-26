@@ -26,7 +26,14 @@ runs:
         script: |
           const current = process.env.CURRENT;
           const bumpType = process.env.BUMP_TYPE;
-          const [major, minor, patch] = current.split('.').map(Number);
+
+          const match = current.match(/^(\d+)\.(\d+)\.(\d+)$/);
+          if (!match) {
+            core.setFailed(`Invalid current version "${current}"; expected X.Y.Z`);
+            return;
+          }
+          const [major, minor, patch] = match.slice(1).map(Number);
+
           const next = {
             major: `${major + 1}.0.0`,
             minor: `${major}.${minor + 1}.0`,
