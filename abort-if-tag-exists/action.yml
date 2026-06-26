@@ -21,7 +21,11 @@ runs:
         TAG: ${{ inputs.tag }}
         REPO: ${{ inputs.repo }}
       run: |
-        if gh api "repos/$REPO/git/ref/tags/$TAG" >/dev/null 2>&1; then
+        if output="$(gh api "repos/$REPO/git/ref/tags/$TAG" 2>&1)"; then
           echo "::error::Tag $TAG already exists"
+          exit 1
+        elif [[ "$output" != *"HTTP 404"* ]]; then
+          echo "$output" >&2
+          echo "::error::Failed to check whether tag $TAG exists in $REPO"
           exit 1
         fi
