@@ -16,9 +16,6 @@ inputs:
   release-notes:
     required: true
     description: "Release notes for the PR body"
-  files:
-    required: true
-    description: "Space-separated list of files to commit"
   github-token:
     required: false
     default: ${{ github.token }}
@@ -33,15 +30,13 @@ runs:
         CURRENT: ${{ inputs.current }}
         NEXT: ${{ inputs.next }}
         TAG: ${{ inputs.tag }}
-        FILES: ${{ inputs.files }}
         RELEASE_NOTES: ${{ inputs.release-notes }}
       run: |
         branch="release-$TAG"
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
         git checkout -b "$branch"
-        git add $FILES
-        git commit -m "Release $TAG"
+        git commit -am "Release $TAG"
         git push -u origin "$branch"
         body_file="$(mktemp)"
         {
