@@ -1,0 +1,42 @@
+create-draft-github-release/action.yml
+  s_4de49168c30d3c::t_92ac66805e0820 1
+  s_4de49168c30d3c::t_993b7ea8c34cb5 29
+  s_4de49168c30d3c::t_4ba5835229773c 2-4,26-28
+  s_4de49168c30d3c::t_cd717b6aeffcd2 30-32
+open-sdk-release-pr/action.yml
+  s_4de49168c30d3c::t_1a0800b21d0e0c 1-53
+  s_4de49168c30d3c::t_fbcefe74c93416 54-55
+compute-next-semver/action.yml
+  s_4de49168c30d3c::t_1765cd7f9ea9f2 1
+  s_4de49168c30d3c::t_83df370062826e 2
+  s_4de49168c30d3c::t_fea7ff0a256bd8 21-42
+  s_4de49168c30d3c::t_f397484ab72861 3-5,18-20
+abort-if-tag-exists/action.yml
+  s_4de49168c30d3c::t_11ea7509e213c7 1-27
+read-version-from-package-json/action.yml
+  s_4de49168c30d3c::t_e74cf339112124 1,3-19
+  s_4de49168c30d3c::t_7ef3ec2740eb3e 2
+generate-release-notes/action.yml
+  s_4de49168c30d3c::t_b4728f7dd40cb6 42
+  s_4de49168c30d3c::t_f1daa087f68656 12
+  s_4de49168c30d3c::t_7c6234f7340012 1-11,13-41,43-57
+prepend-changelog/action.yml
+  s_4de49168c30d3c::t_2c4c98738d7a65 2,24-25
+  s_4de49168c30d3c::t_5a6d0aa65d5dbd 1,3-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.1",
+  "base_commit_sha": "ce4ed43585fa966771bd86482b0f5b7b92750418",
+  "prompts": {},
+  "sessions": {
+    "s_4de49168c30d3c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "405e35c1-a093-4c99-98ad-c67e4fa97f4a",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Igor Dobryn <igor.dobryn@railsware.com>"
+    }
+  }
+}
