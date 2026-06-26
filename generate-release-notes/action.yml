@@ -43,6 +43,7 @@ runs:
             });
             if (comparison.total_commits === 0) {
               core.info(`No commits since ${previousTag}; nothing to release. Skipping.`);
+              core.setOutput('release_notes', '');
               return;
             }
           }
