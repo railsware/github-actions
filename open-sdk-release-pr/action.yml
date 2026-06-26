@@ -1,0 +1,55 @@
+name: Open SDK release PR
+description: Commit the version/changelog changes to a release branch, push it, and open a release PR against main.
+inputs:
+  tag:
+    required: true
+    description: "Release tag (vX.Y.Z); the release branch is derived as release-<tag>"
+  current:
+    required: true
+    description: "Current version (X.Y.Z)"
+  next:
+    required: true
+    description: "Next version (X.Y.Z)"
+  bump-type:
+    required: true
+    description: "Semver bump type: patch | minor | major"
+  release-notes:
+    required: true
+    description: "Release notes for the PR body"
+  files:
+    required: true
+    description: "Space-separated list of files to commit"
+  github-token:
+    required: false
+    default: ${{ github.token }}
+    description: "Token with permission to push and open PRs"
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        BUMP_TYPE: ${{ inputs.bump-type }}
+        CURRENT: ${{ inputs.current }}
+        NEXT: ${{ inputs.next }}
+        TAG: ${{ inputs.tag }}
+        FILES: ${{ inputs.files }}
+        RELEASE_NOTES: ${{ inputs.release-notes }}
+      run: |
+        branch="release-$TAG"
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git checkout -b "$branch"
+        git add $FILES
+        git commit -m "Release $TAG"
+        git push -u origin "$branch"
+        body_file="$(mktemp)"
+        {
+          printf '## Automated `%s` bump from v%s to v%s\n\n' "$BUMP_TYPE" "$CURRENT" "$NEXT"
+          printf '%s\n' "$RELEASE_NOTES"
+        } > "$body_file"
+        gh pr create \
+          --base main \
+          --head "$branch" \
+          --title "Release $TAG" \
+          --body-file "$body_file"

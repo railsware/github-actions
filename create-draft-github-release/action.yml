@@ -1,0 +1,35 @@
+name: Create draft GitHub release
+description: Create a draft GitHub release for a tag.
+inputs:
+  tag:
+    required: true
+    description: "Release tag (vX.Y.Z)"
+  release-notes:
+    required: true
+    description: "Release notes body"
+  github-token:
+    required: false
+    default: ${{ github.token }}
+    description: "Token with permission to create releases"
+runs:
+  using: composite
+  steps:
+    - uses: actions/github-script@v7
+      env:
+        TAG: ${{ inputs.tag }}
+        RELEASE_NOTES: ${{ inputs.release-notes }}
+      with:
+        github-token: ${{ inputs.github-token }}
+        script: |
+          const tag = process.env.TAG;
+          const { data } = await github.rest.repos.createRelease({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            tag_name: tag,
+            target_commitish: 'main',
+            name: tag,
+            body: process.env.RELEASE_NOTES,
+            draft: true,
+            prerelease: false,
+          });
+          core.info(`Draft release created: ${data.html_url}`);

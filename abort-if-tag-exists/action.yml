@@ -1,0 +1,27 @@
+name: Abort if tag exists
+description: Fail the job if the given git tag already exists in the repository.
+inputs:
+  tag:
+    required: true
+    description: "Tag to check (e.g. vX.Y.Z)"
+  repo:
+    required: false
+    default: ${{ github.repository }}
+    description: "owner/name of the repository to check"
+  github-token:
+    required: false
+    default: ${{ github.token }}
+    description: "Token with read access to the repository"
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        TAG: ${{ inputs.tag }}
+        REPO: ${{ inputs.repo }}
+      run: |
+        if gh api "repos/$REPO/git/ref/tags/$TAG" >/dev/null 2>&1; then
+          echo "::error::Tag $TAG already exists"
+          exit 1
+        fi
