@@ -1,0 +1,58 @@
+name: Generate release notes
+description: Generate GitHub release notes for a tag since the previous release. Outputs empty release-notes when there is nothing to release.
+inputs:
+  tag:
+    required: true
+    description: "Release tag the notes are generated for (vX.Y.Z)"
+  github-token:
+    required: false
+    default: ${{ github.token }}
+    description: "Token with read access to the repository"
+outputs:
+  release_notes:
+    description: "Generated release notes; empty when there is nothing to release"
+    value: ${{ steps.notes.outputs.release_notes }}
+runs:
+  using: composite
+  steps:
+    - id: notes
+      uses: actions/github-script@v7
+      env:
+        TAG: ${{ inputs.tag }}
+      with:
+        github-token: ${{ inputs.github-token }}
+        script: |
+          const tag = process.env.TAG;
+
+          // Detect the previous release tag so notes only cover PRs since then.
+          const latest = await github.rest.repos.getLatestRelease({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+          }).catch((error) => {
+            if (error.status === 404) return null;
+            throw error;
+          });
+          const previousTag = latest?.data.tag_name;
+
+          // Leave release-notes empty if nothing changed since the previous release.
+          if (previousTag) {
+            const { data: comparison } = await github.rest.repos.compareCommitsWithBasehead({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              basehead: `${previousTag}...main`,
+            });
+            if (comparison.total_commits === 0) {
+              core.info(`No commits since ${previousTag}; nothing to release. Skipping.`);
+              core.setOutput('release_notes', '');
+              return;
+            }
+          }
+
+          const { data } = await github.rest.repos.generateReleaseNotes({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            tag_name: tag,
+            ...(previousTag ? { previous_tag_name: previousTag } : {}),
+          });
+
+          core.setOutput('release_notes', data.body);
