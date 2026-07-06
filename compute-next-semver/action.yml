@@ -1,0 +1,49 @@
+name: Compute next semver
+description: Compute the next semver and release tag from a current version and bump type.
+inputs:
+  current:
+    required: true
+    description: "Current semver version (X.Y.Z)"
+  bump-type:
+    required: true
+    description: "Semver bump type: patch | minor | major"
+outputs:
+  next:
+    description: "Next semver version (X.Y.Z)"
+    value: ${{ steps.compute.outputs.next }}
+  tag:
+    description: "Release tag (vX.Y.Z)"
+    value: ${{ steps.compute.outputs.tag }}
+runs:
+  using: composite
+  steps:
+    - id: compute
+      uses: actions/github-script@v7
+      env:
+        CURRENT: ${{ inputs.current }}
+        BUMP_TYPE: ${{ inputs.bump-type }}
+      with:
+        script: |
+          const current = process.env.CURRENT;
+          const bumpType = process.env.BUMP_TYPE;
+
+          const match = current.match(/^(\d+)\.(\d+)\.(\d+)$/);
+          if (!match) {
+            core.setFailed(`Invalid current version "${current}"; expected X.Y.Z`);
+            return;
+          }
+          const [major, minor, patch] = match.slice(1).map(Number);
+
+          const next = {
+            major: `${major + 1}.0.0`,
+            minor: `${major}.${minor + 1}.0`,
+            patch: `${major}.${minor}.${patch + 1}`,
+          }[bumpType];
+          if (!next) {
+            core.setFailed(`Unknown bump type: ${bumpType}`);
+            return;
+          }
+
+          core.info(`Bumping ${current} -> ${next}`);
+          core.setOutput('next', next);
+          core.setOutput('tag', `v${next}`);

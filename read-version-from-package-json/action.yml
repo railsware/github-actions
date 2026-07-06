@@ -1,0 +1,19 @@
+name: Read version from package.json
+description: Read the version and name from package.json in the working directory.
+outputs:
+  version:
+    description: "version field from package.json"
+    value: ${{ steps.read.outputs.version }}
+  package:
+    description: "name field from package.json"
+    value: ${{ steps.read.outputs.package }}
+runs:
+  using: composite
+  steps:
+    - id: read
+      shell: bash
+      run: |
+        {
+          echo "version=$(jq -r .version package.json)"
+          echo "package=$(jq -r .name package.json)"
+        } >> "$GITHUB_OUTPUT"
