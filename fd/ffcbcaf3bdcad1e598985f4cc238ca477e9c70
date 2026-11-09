@@ -1,0 +1,45 @@
+README.md
+  s_6a96f9fc6f385b::t_e641c225553d33 9-16
+resolve-pending-release/action.yml
+  s_6a96f9fc6f385b::t_2da660071d76f2 7,10-13,15,19
+  s_6a96f9fc6f385b::t_8a7d9cc52b050d 27
+  s_6a96f9fc6f385b::t_2ce112b79c5d54 36,41-66
+  s_6a96f9fc6f385b::t_895243e3cc9a2c 39
+  s_6a96f9fc6f385b::t_721d53f9526723 4-6
+  s_6a96f9fc6f385b::t_7b73a2995f33b6 8-9
+  s_6a96f9fc6f385b::t_0840032368f43c 14
+  s_6a96f9fc6f385b::t_42931ed9a73bc3 16-18
+  s_6a96f9fc6f385b::t_b5cac325b27859 20-22,24-26
+  s_6a96f9fc6f385b::t_033324bb8a805b 28-30,33-35
+  s_6a96f9fc6f385b::t_c7bdc4fb80f9b2 37-38
+  s_6a96f9fc6f385b::t_3547a2de91ae7f 40
+check-sdk-github-release/action.yml
+  s_6a96f9fc6f385b::t_437b932bff39ad 1-37
+check-sdk-npm-release/action.yml
+  s_6a96f9fc6f385b::t_ecb471bc835148 1-21
+check-sdk-rubygems-release/action.yml
+  s_6a96f9fc6f385b::t_2a63cdb59fcfdb 1-37
+publish-github-release/action.yml
+  s_6a96f9fc6f385b::t_0786c3ae81ee2f 1-34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "fdffcbcaf3bdcad1e598985f4cc238ca477e9c70",
+  "prompts": {},
+  "humans": {
+    "h_32e79f74e8df76": {
+      "author": "Igor Dobryn <igor.dobryn@railsware.com>"
+    }
+  },
+  "sessions": {
+    "s_6a96f9fc6f385b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27ae2a3f-9ba9-4657-a922-4ac13b050f15",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Igor Dobryn <igor.dobryn@railsware.com>"
+    }
+  }
+}
