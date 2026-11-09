@@ -1,0 +1,66 @@
+name: Resolve pending release
+description: >
+  Read the newest version from the top "## [X.Y.Z]" heading of the changelog and report whether
+  a draft GitHub Release exists for it. Does not fail when nothing is pending.
+inputs:
+  changelog:
+    required: false
+    default: CHANGELOG.md
+    description: "Path to the changelog written by prepend-changelog"
+  tag-prefix:
+    required: false
+    default: v
+    description: "Prefix of the release tag before the version (empty for bare X.Y.Z tags)"
+  repo:
+    required: false
+    default: ${{ github.repository }}
+    description: "owner/name of the repository hosting the release"
+  github-token:
+    required: false
+    default: ${{ github.token }}
+    description: "Token with read access to the repository's releases"
+outputs:
+  version:
+    description: "Newest changelog version (X.Y.Z)"
+    value: ${{ steps.resolve.outputs.version }}
+  tag:
+    description: "Release tag (tag-prefix + version)"
+    value: ${{ steps.resolve.outputs.tag }}
+  pending:
+    description: "'true' when a draft GitHub Release exists for the tag, 'false' otherwise"
+    value: ${{ steps.resolve.outputs.pending }}
+runs:
+  using: composite
+  steps:
+    - id: resolve
+      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+      env:
+        CHANGELOG: ${{ inputs.changelog }}
+        TAG_PREFIX: ${{ inputs.tag-prefix }}
+        REPO: ${{ inputs.repo }}
+      with:
+        github-token: ${{ inputs.github-token }}
+        script: |
+          const fs = require('fs');
+          const changelog = process.env.CHANGELOG;
+          const [owner, repo] = process.env.REPO.split('/');
+
+          const match = fs.readFileSync(changelog, 'utf8').match(/^## \[([^\]]+)\]/m);
+          if (!match) {
+            core.setFailed(`No '## [X.Y.Z]' heading found in ${changelog}`);
+            return;
+          }
+          const version = match[1];
+          const tag = `${process.env.TAG_PREFIX}${version}`;
+
+          // Matching the changelog, not just any draft, ties the release to the release commit:
+          // SDKs without a version file have their draft from the moment it is drafted.
+          // getReleaseByTag does not return drafts (they have no tag yet), so list and match.
+          const releases = await github.paginate(github.rest.repos.listReleases, { owner, repo, per_page: 100 });
+          const release = releases.find((r) => r.tag_name === tag);
+          const state = release ? (release.draft ? 'draft' : 'published') : 'missing';
+
+          core.info(`Newest changelog version ${version}, GitHub Release ${tag}: ${state}`);
+          core.setOutput('version', version);
+          core.setOutput('tag', tag);
+          core.setOutput('pending', String(state === 'draft'));

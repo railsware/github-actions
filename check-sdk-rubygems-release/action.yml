@@ -1,0 +1,37 @@
+name: Check SDK RubyGems release
+description: Fail the job if the gem version is already published to RubyGems.
+inputs:
+  gem:
+    required: true
+    description: "Gem name"
+  version:
+    required: true
+    description: "Version to check (X.Y.Z)"
+runs:
+  using: composite
+  steps:
+    - uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+      env:
+        GEM: ${{ inputs.gem }}
+        VERSION: ${{ inputs.version }}
+      with:
+        script: |
+          const gem = process.env.GEM;
+          const version = process.env.VERSION;
+
+          const res = await fetch(`https://rubygems.org/api/v1/versions/${gem}.json`);
+
+          // 404 means the gem has no published versions yet — nothing to check.
+          if (res.status === 404) {
+            core.info(`${gem} has no published versions yet`);
+            return;
+          }
+          if (!res.ok) {
+            core.setFailed(`Failed to query RubyGems for ${gem} (HTTP ${res.status})`);
+            return;
+          }
+
+          const versions = await res.json();
+          if (versions.some((v) => v.number === version)) {
+            core.setFailed(`${gem} ${version} is already published to RubyGems`);
+          }

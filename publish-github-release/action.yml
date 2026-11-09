@@ -1,0 +1,34 @@
+name: Publish GitHub release
+description: Mark a draft GitHub Release as published (un-draft it), optionally pinning it to a commit first.
+inputs:
+  tag:
+    required: true
+    description: "Release tag (vX.Y.Z)"
+  target:
+    required: false
+    default: ""
+    description: "Commit SHA to pin the release to before un-drafting; the tag is created at this commit"
+  repo:
+    required: false
+    default: ${{ github.repository }}
+    description: "owner/name of the repository hosting the release"
+  github-token:
+    required: false
+    default: ${{ github.token }}
+    description: "Token with permission to edit the repository's releases"
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        TAG: ${{ inputs.tag }}
+        TARGET: ${{ inputs.target }}
+        REPO: ${{ inputs.repo }}
+      run: |
+        # A draft's target is usually a branch name, so un-drafting would tag wherever that
+        # branch points at that moment. Pinning to the built commit keeps the tag on what shipped.
+        if [ -n "$TARGET" ]; then
+          gh release edit "$TAG" --repo "$REPO" --target "$TARGET"
+        fi
+        gh release edit "$TAG" --repo "$REPO" --draft=false

@@ -6,6 +6,14 @@ A collection of GitHub actions used at Railsware
 - [read-from-ssm-param-store](/read-from-ssm-param-store/README.md) - retrieve information about parameters in a specific hierarchy
 - [run-ecs-task](/run-ecs-task/README.md) - run a one-off task on AWS Elastic Container Service
 
+SDK release:
+
+- [resolve-pending-release](/resolve-pending-release/action.yml) - read the newest CHANGELOG.md version and report whether a draft GitHub Release exists for it
+- [check-sdk-github-release](/check-sdk-github-release/action.yml) - fail unless a draft GitHub Release exists for the tag
+- [check-sdk-npm-release](/check-sdk-npm-release/action.yml) - fail if the version is already on npm
+- [check-sdk-rubygems-release](/check-sdk-rubygems-release/action.yml) - fail if the version is already on RubyGems
+- [publish-github-release](/publish-github-release/action.yml) - pin a draft GitHub Release to a commit and un-draft it
+
 ---
 
 ## running action on local machine
