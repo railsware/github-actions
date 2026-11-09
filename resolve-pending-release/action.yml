@@ -45,7 +45,8 @@ runs:
           const changelog = process.env.CHANGELOG;
           const [owner, repo] = process.env.REPO.split('/');
 
-          const match = fs.readFileSync(changelog, 'utf8').match(/^## \[([^\]]+)\]/m);
+          // Only version headings count, so a hand-added "## [Unreleased]" is skipped.
+          const match = fs.readFileSync(changelog, 'utf8').match(/^## \[(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)\]/m);
           if (!match) {
             core.setFailed(`No '## [X.Y.Z]' heading found in ${changelog}`);
             return;
