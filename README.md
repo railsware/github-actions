@@ -8,7 +8,7 @@ A collection of GitHub actions used at Railsware
 
 SDK release:
 
-- [resolve-pending-release](/resolve-pending-release/action.yml) - read the newest CHANGELOG.md version and report whether a draft GitHub Release exists for it
+- [resolve-pending-release](/resolve-pending-release/action.yml) - read the newest CHANGELOG.md version and report whether it is still unreleased (works with a read-only token)
 - [check-sdk-github-release](/check-sdk-github-release/action.yml) - fail unless a draft GitHub Release exists for the tag
 - [check-sdk-npm-release](/check-sdk-npm-release/action.yml) - fail if the version is already on npm
 - [check-sdk-rubygems-release](/check-sdk-rubygems-release/action.yml) - fail if the version is already on RubyGems

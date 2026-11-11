@@ -1,7 +1,8 @@
 name: Resolve pending release
 description: >
   Read the newest version from the top "## [X.Y.Z]" heading of the changelog and report whether
-  a draft GitHub Release exists for it. Does not fail when nothing is pending.
+  it is still unreleased, i.e. has no published GitHub Release yet. Works with a read-only token;
+  the publish job confirms the draft. Does not fail when nothing is pending.
 inputs:
   changelog:
     required: false
@@ -27,7 +28,7 @@ outputs:
     description: "Release tag (tag-prefix + version)"
     value: ${{ steps.resolve.outputs.tag }}
   pending:
-    description: "'true' when a draft GitHub Release exists for the tag, 'false' otherwise"
+    description: "'true' while the tag has no published GitHub Release, 'false' once it is released"
     value: ${{ steps.resolve.outputs.pending }}
 runs:
   using: composite
@@ -54,14 +55,19 @@ runs:
           const version = match[1];
           const tag = `${process.env.TAG_PREFIX}${version}`;
 
-          // Matching the changelog, not just any draft, ties the release to the release commit:
-          // SDKs without a version file have their draft from the moment it is drafted.
-          // getReleaseByTag does not return drafts (they have no tag yet), so list and match.
-          const releases = await github.paginate(github.rest.repos.listReleases, { owner, repo, per_page: 100 });
-          const release = releases.find((r) => r.tag_name === tag);
-          const state = release ? (release.draft ? 'draft' : 'published') : 'missing';
+          // Drafts are listed only to tokens with push access, so a read-only token can't tell a
+          // draft from no release at all. A published release is visible to any token (and
+          // getReleaseByTag returns only published ones), so the newest changelog version counts
+          // as pending until it is released. The publish job checks the draft with a write token.
+          let released = true;
+          try {
+            await github.rest.repos.getReleaseByTag({ owner, repo, tag });
+          } catch (err) {
+            if (err.status !== 404) throw err;
+            released = false;
+          }
 
-          core.info(`Newest changelog version ${version}, GitHub Release ${tag}: ${state}`);
+          core.info(`Newest changelog version ${version}, GitHub Release ${tag}: ${released ? 'released' : 'not released yet'}`);
           core.setOutput('version', version);
           core.setOutput('tag', tag);
-          core.setOutput('pending', String(state === 'draft'));
+          core.setOutput('pending', String(!released));
