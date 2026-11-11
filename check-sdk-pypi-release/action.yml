@@ -1,0 +1,33 @@
+name: Check SDK PyPI release
+description: Fail the job if the package version is already published to PyPI.
+inputs:
+  package:
+    required: true
+    description: "PyPI package name"
+  version:
+    required: true
+    description: "Version to check (X.Y.Z)"
+runs:
+  using: composite
+  steps:
+    - uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+      env:
+        PACKAGE: ${{ inputs.package }}
+        VERSION: ${{ inputs.version }}
+      with:
+        script: |
+          const pkg = process.env.PACKAGE;
+          const version = process.env.VERSION;
+
+          const res = await fetch(`https://pypi.org/pypi/${pkg}/${version}/json`);
+
+          // 404 means this version (or the whole package) is not published yet.
+          if (res.status === 404) {
+            core.info(`${pkg} ${version} is not published to PyPI yet`);
+            return;
+          }
+          if (res.ok) {
+            core.setFailed(`${pkg} ${version} is already published to PyPI`);
+            return;
+          }
+          core.setFailed(`Failed to query PyPI for ${pkg} ${version} (HTTP ${res.status})`);

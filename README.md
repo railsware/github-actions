@@ -12,6 +12,7 @@ SDK release:
 - [check-sdk-github-release](/check-sdk-github-release/action.yml) - fail unless a draft GitHub Release exists for the tag
 - [check-sdk-npm-release](/check-sdk-npm-release/action.yml) - fail if the version is already on npm
 - [check-sdk-rubygems-release](/check-sdk-rubygems-release/action.yml) - fail if the version is already on RubyGems
+- [check-sdk-pypi-release](/check-sdk-pypi-release/action.yml) - fail if the version is already on PyPI
 - [publish-github-release](/publish-github-release/action.yml) - pin a draft GitHub Release to a commit and un-draft it
 
 ---
