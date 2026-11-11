@@ -1,0 +1,68 @@
+name: Publish GitHub release
+description: Mark a draft GitHub Release as published (un-draft it), optionally pinning it to a commit first.
+inputs:
+  tag:
+    required: true
+    description: "Release tag (vX.Y.Z)"
+  target:
+    required: false
+    default: ""
+    description: "Commit SHA to pin the release to before un-drafting; the tag is created at this commit"
+  repo:
+    required: false
+    default: ${{ github.repository }}
+    description: "owner/name of the repository hosting the release"
+  github-token:
+    required: false
+    default: ${{ github.token }}
+    description: "Token with permission to edit the repository's releases"
+runs:
+  using: composite
+  steps:
+    - uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+      env:
+        TAG: ${{ inputs.tag }}
+        TARGET: ${{ inputs.target }}
+        REPO: ${{ inputs.repo }}
+      with:
+        github-token: ${{ inputs.github-token }}
+        script: |
+          const { TAG: tag, TARGET: target } = process.env;
+          const [owner, repo] = process.env.REPO.split('/');
+
+          // getReleaseByTag does not return drafts (they have no tag yet), so list and match.
+          const releases = await github.paginate(github.rest.repos.listReleases, { owner, repo, per_page: 100 });
+          const release = releases.find((r) => r.tag_name === tag);
+          if (!release) {
+            core.setFailed(`No GitHub Release ${tag} found`);
+            return;
+          }
+
+          if (target) {
+            // GitHub ignores target_commitish when the tag already exists, so an existing tag
+            // must already point at the target. A missing tag is created at the target below.
+            let tagged;
+            try {
+              const { data: ref } = await github.rest.git.getRef({ owner, repo, ref: `tags/${tag}` });
+              tagged = ref.object.type === 'tag'
+                ? (await github.rest.git.getTag({ owner, repo, tag_sha: ref.object.sha })).data.object.sha
+                : ref.object.sha;
+            } catch (err) {
+              if (err.status !== 404) throw err;
+            }
+            if (tagged && tagged !== target) {
+              core.setFailed(`Tag ${tag} already exists at ${tagged}, not at ${target}`);
+              return;
+            }
+          }
+
+          // A draft's target is usually a branch name, so un-drafting would tag wherever that
+          // branch points at that moment. Pinning to the built commit keeps the tag on what shipped.
+          await github.rest.repos.updateRelease({
+            owner,
+            repo,
+            release_id: release.id,
+            draft: false,
+            ...(target && { target_commitish: target }),
+          });
+          core.info(`Published GitHub Release ${tag}${target ? ` at ${target}` : ''}`);

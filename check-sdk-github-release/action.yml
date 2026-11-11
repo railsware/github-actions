@@ -1,0 +1,37 @@
+name: Check SDK GitHub release
+description: Fail the job unless a draft GitHub Release exists for the tag (fails if it is missing or already published).
+inputs:
+  tag:
+    required: true
+    description: "GitHub Release tag (vX.Y.Z)"
+  repo:
+    required: false
+    default: ${{ github.repository }}
+    description: "owner/name of the repository hosting the release"
+  github-token:
+    required: false
+    default: ${{ github.token }}
+    description: "Token with read access to the repository's releases"
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        TAG: ${{ inputs.tag }}
+        REPO: ${{ inputs.repo }}
+      run: |
+        state=$(gh release view "$TAG" --repo "$REPO" --json isDraft --jq .isDraft 2>/dev/null || echo missing)
+        case "$state" in
+          true)
+            echo "Draft GitHub Release $TAG found"
+            ;;
+          false)
+            echo "::error::GitHub Release $TAG is already published"
+            exit 1
+            ;;
+          *)
+            echo "::error::No draft GitHub Release $TAG found; run the draft-release workflow first"
+            exit 1
+            ;;
+        esac

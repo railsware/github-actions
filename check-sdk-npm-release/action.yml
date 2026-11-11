@@ -1,0 +1,27 @@
+name: Check SDK npm release
+description: Fail the job if the package version is already published to npm.
+inputs:
+  package:
+    required: true
+    description: "npm package name"
+  version:
+    required: true
+    description: "Version to check (X.Y.Z)"
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        PACKAGE: ${{ inputs.package }}
+        VERSION: ${{ inputs.version }}
+      run: |
+        # E404 means the version (or the whole package) is not published yet; any other error
+        # must not read as "not published".
+        if output=$(npm view "$PACKAGE@$VERSION" version 2>&1); then
+          echo "::error::$PACKAGE@$VERSION is already published to npm"
+          exit 1
+        elif [[ "$output" != *E404* ]]; then
+          echo "$output" >&2
+          echo "::error::Failed to check whether $PACKAGE@$VERSION is published to npm"
+          exit 1
+        fi
